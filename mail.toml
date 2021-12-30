@@ -1,0 +1,9 @@
+[verification]
+  subject="MetaSecure - Verification Code"
+  template="./templates/verify-email.tmpl"
+  images=["./images/Page-1.png","./images/email-template-illustration.png","./images/facebook.png","./images/linkedin.png","./images/twitter.png"]
+[forgotPassword]
+  subject="MetaSecure - Reset your Password"
+  template="./templates/forgot-password-copy.tmpl"
+  images=["./images/Page-1.png","./images/email-template-illustration.png","./images/facebook.png","./images/linkedin.png","./images/twitter.png"]
+

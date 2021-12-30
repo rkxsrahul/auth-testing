@@ -1,0 +1,43 @@
+[Service]
+  Port = "8000"
+  IsLogoutOthers = "true"
+  Environment = "development"
+  Mails = ""
+  Build =""
+  VerifyLinkTimeout = 1800
+  BaseUrl = ""
+[Database]
+  name = "continuoussecurityauth"
+  host = "172.16.200.250"
+  port = "31878"
+  user = "csecurity"
+  pass = "Xenonpostgres"
+  ideal = ""
+[Redis]
+  database = "0"
+  host = "localhost"
+  port = "6379"
+  pass = ""
+[Mail]
+  Host = ""
+  Port = ""
+  From = ""
+  User = ""
+  Pass = ""
+
+[Google]
+  ClientID = ""
+  ClientKey = "" 
+  Scopes = "read:user,user:email,user:follow"
+  Redirect = "https://continuous-security.secops.neuralcompany.team/api/auth/v1/github/callback"
+
+[GitHub]
+  ClientID = ""
+  ClientKey = "" 
+  Scopes = "email,profile"
+  Redirect = "https://continuous-security.secops.neuralcompany.team/api/auth/v1/google/callback"
+[NatsServer]
+  url = "demo.nats.io"
+  token = "xxxx"
+  username = "user"
+  password = "xxxx"

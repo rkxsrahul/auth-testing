@@ -1,0 +1,40 @@
+2021/12/30 13:36:59 main.go:74: Logging to a file in Go!
+2021/12/30 13:36:59 setup.go:68: ERROR: permission denied to create database (SQLSTATE 42501)
+2021/12/30 13:36:59 config.go:221: example.toml
+2021/12/30 13:36:59 config.go:221: example.toml
+2021/12/30 13:36:59 main.go:165: map[error:false expire:2021-12-30T14:06:59+05:30 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhaHVsQHhlbm9uc3RhY2suY29tIiwiZXhwIjoxNjQwODUzNDE5LCJpZCI6NTAsIm5hbWUiOiJSYWh1bCBLdW1hciIsIm9yaWdfaWF0IjoxNjQwODUxNjE5LCJzeXNfcm9sZSI6ImFkbWluIn0.vSBawiD7FMo9pRqr9itjtP0Q3aH4kPy-bu228WXPkj0]
+[GIN-debug] [WARNING] Now Gin requires Go 1.13+.
+
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /                         --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /healthz                  --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.Healthz (4 handlers)
+[GIN-debug] GET    /openapi.yaml             --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
+[GIN-debug] HEAD   /openapi.yaml             --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
+[GIN-debug] GET    /logs                     --> git.xenonstack.com/akirastack/continuous-security-auth/src/routes.readLogs (5 handlers)
+[GIN-debug] GET    /end                      --> git.xenonstack.com/akirastack/continuous-security-auth/src/routes.readEnv (5 handlers)
+[GIN-debug] GET    /v1/google/login          --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.GoogleLogin (4 handlers)
+[GIN-debug] GET    /v1/google/callback       --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.GoogleCallback (4 handlers)
+[GIN-debug] GET    /v1/github/login          --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.GitHubLogin (4 handlers)
+[GIN-debug] GET    /v1/github/callback       --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.GitHubCallback (4 handlers)
+[GIN-debug] POST   /v1/signup                --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.SignupEndpoint (4 handlers)
+[GIN-debug] POST   /v1/verifymail-testing    --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.VerifyMail (4 handlers)
+[GIN-debug] POST   /v1/verifymail            --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.VerifyMailEp (4 handlers)
+[GIN-debug] POST   /v1/send_code_again       --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.SendCodeAgain (4 handlers)
+[GIN-debug] POST   /v1/login                 --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.LoginEndpoint (4 handlers)
+[GIN-debug] POST   /v1/forgotpass            --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.ForgotPassEp (4 handlers)
+2021/12/30 13:36:59 config.go:221: example.toml
+[GIN-debug] GET    /v1/refresh_token         --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.RefreshToken (6 handlers)
+[GIN-debug] GET    /v1/check_token           --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.CheckToken (6 handlers)
+[GIN-debug] GET    /v1/logout                --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.Logout (6 handlers)
+[GIN-debug] GET    /v1/checkIntegrations     --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.CheckIntegrations (6 handlers)
+[GIN-debug] PUT    /v1/changepass            --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.ChangePasswordEp (7 handlers)
+[GIN-debug] GET    /v1/profile               --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.ViewProfile (7 handlers)
+[GIN-debug] PUT    /v1/profile               --> git.xenonstack.com/akirastack/continuous-security-auth/src/api.UpdateProfile (7 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8000

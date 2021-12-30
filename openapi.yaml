@@ -1,0 +1,551 @@
+openapi: 3.0.1
+info:
+  title: AkiraStack Auth
+  description: 'This is the API Documentation'
+  version: 1.0.0
+tags:
+- name: signup
+  description: APIs for account signup
+- name: login
+  description: APIs for account login
+- name: user
+  description: APIs related to user
+servers:
+- url: 'https://continuous-security.neuralcompany.team/api/auth'
+paths:
+  /healthz:
+    get:
+      operationId: healthz
+      summary: "health endpoint"
+      responses:
+        '200':
+          description: connection successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+        '500':
+          description: connection failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+                  build:
+                    type: string
+  /v1/signup:
+    post:
+      tags:
+      - signup
+      description: "account signup"
+      summary: "register for new account"
+      operationId: signUp
+      requestBody:
+        description: "account information for signup"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/signupdt'
+      responses:
+        '200':
+          description: "signup successful"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: "signup unsuccessful"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/verifymail:
+    post:
+      tags:
+      - signup
+      description: "account verification through email"
+      summary: "verify account using email link"
+      operationId: verifyMail
+      requestBody:
+        description: "enter email and verification token"
+        content:
+          application/json:
+            schema:
+              properties:
+                verification_code:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: "email verified"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/verification'
+        '400':
+          description: "bad request"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '401':
+          description: "unauthorized"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/send_code_again:
+    post:
+      tags:
+      - signup
+      operationId: resendCode
+      summary: "resend the verification code"
+      requestBody:
+        description: "enter email for resending code"
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: "verification code sent"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: "could not send code"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  
+                  
+  /v1/login:
+    post:
+      tags:
+      - login
+      summary: "login to your account"
+      operationId: login
+      requestBody:
+        description: "login details"
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: "login successful"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_response'
+        '400':
+          description: "invalid or missing data"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '401':
+          description: "login failed"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '501':
+          description: 'connection failed'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/forgotpass:
+    post:
+      tags:
+      - login
+      summary: "send forgot password request and reset password using token"
+      operationId: forgotPass
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              properties:
+                state:
+                  type: string
+                  example: "forgot/reset"
+                email:
+                  type: string
+                  example: "pass when type is forgot"
+                token:
+                  type: string
+                  example: "pass when type is reset"
+                password:
+                  type: string
+                  example: "pass when type is reset"
+      responses:
+        '200':
+          description: "forgot-password/reset-password successful"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+
+        '400':
+          description: "invalid or missing data"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+  /v1/refresh_token:
+    get:
+      tags:
+      - login
+      operationId: refreshToken
+      summary: "refresh jwt token if expired"
+      responses:
+        '200':
+          description: "new token generated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token_response'
+        '501':
+          description: "connection failed"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+      - jwtAuth: []
+  /v1/logout:
+    get:
+      tags:
+      - login
+      operationId: logout
+      summary: "logout from your account"
+      responses:
+        '200':
+          description: "successfully logged out"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '501':
+          description: "logout failed"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+      - jwtAuth: []
+  /v1/profile:
+    get:
+      tags:
+      - user
+      summary: "get account information"
+      operationId: viewProfile
+      responses:
+        '200':
+          description: "profile information fetched"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  account:
+                    $ref: '#/components/schemas/account_details'
+        '500':
+          description: "error while fetching profile"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+      - jwtAuth: []
+    put:
+      tags:
+      - user
+      summary: "update your profile"
+      operationId: updateProfile
+      requestBody:
+        description: "values to update"
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                contact:
+                  type: string
+      responses:
+        '200':
+          description: "profile updated succesfully"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: "missing or invalid data"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '500':
+          description: "failed to update profile"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+      - jwtAuth: []
+  /v1/changepass:
+    put:
+      tags:
+      - user
+      summary: "change password for account"
+      operationId: changePass
+      requestBody:
+        description: "enter a new password"
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: "password updated successfully"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: "new password missing or invalid"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+        '500':
+          description: "failed to update password"
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: boolean
+                  message:
+                    type: string
+      security:
+      - jwtAuth: []
+  
+  /v1/google/login:
+    get:
+      tags:
+      - Social Login
+      summary: "login using google account"
+      operationId: GoogleLogin
+      parameters:
+      - name: redirect
+        in: query
+        description: "redirect url after successfull login"
+        schema:
+          type: string
+      responses:
+        '302':
+          description: "redirect to the url passed in query data with query data token(JWT token), name and email of user"
+      
+
+components:
+  schemas:
+    signupdt:
+      type: object
+      properties:
+        name:
+          type: string
+        contact:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    registerdt:
+      type: object
+      properties:
+        name:
+          type: string
+        contact:
+          type: string
+        token:
+          type: string
+        password:
+          type: string
+    account_details:
+      type: object
+      properties:
+        userid:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        contact_no:
+          type: string
+        verify_status:
+          type: string
+        sys_role:
+          type: string
+        account_status:
+          type: string
+        CreationDate:
+          type: string
+    verification:
+      type: object
+      properties:
+        email:
+          type: string
+        error:
+          type: boolean
+        expire:
+          type: string
+        message:
+          type: string
+        name:
+          type: string
+        role_id:
+          type: string
+        token:
+          type: string
+    login_response:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: string
+        token:
+          type: string
+        expire:
+          type: string
+        error:
+          type: boolean
+    token_response:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        sys_role:
+          type: string
+        error:
+          type: boolean
+        expire:
+          type: string
+        token:
+          type: string
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
